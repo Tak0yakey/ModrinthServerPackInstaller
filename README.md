@@ -1,1 +1,2 @@
 # ModrinthServerPackInstaller
+Pythonスクリプトを叩くだけでModrinthのServerpackをインストールできるツール。
