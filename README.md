@@ -28,3 +28,37 @@
 git clone https://github.com/Tak0yakey/ModrinthServerPackInstaller.git
 cd ModrinthServerPackInstaller
 ```
+
+## 📖 Usage
+
+基本的な使い方は、インストールしたい Modpack の直接ダウンロードリンク（URL）を引数に渡すだけです。
+
+```bash
+# 基本的な実行（デフォルトではカレントディレクトリの 'server' フォルダに構築されます）
+python install.py "https://example.com/path/to/modpack.zip"
+```
+
+### オプション引数
+
+| 引数 | 型 | デフォルト | 説明 |
+| :--- | :---: | :---: | :--- |
+| `url` | 必須 | なし | Modpack のダウンロード URL を指定します。 |
+| `-d` | 文字列 | `server` | 構築先のディレクトリパスを指定します。 |
+| `-c` | 真偽値 | `False` | `True` にするとクライアント用パックとしてModをインストールします。デフォルトは `False`（サーバー用）です。 |
+
+### 実行例
+
+**インストール先のディレクトリ名を変更する場合 (`-d`) :**
+```bash
+python install.py "https://example.com/path/to/modpack.zip" -d ./my_server
+```
+
+**クライアント用のModパックを構築する場合 (`-c`) :**
+```bash
+python install.py "https://example.com/path/to/modpack.zip" -c True
+```
+
+## ⚠️ Note
+
+- **ディレクトリの初期化:** 指定した展開先ディレクトリ（デフォルトは `server`）が既に存在する場合、**スクリプト実行時に中身がすべて削除 (`shutil.rmtree`) されてから構築が始まります**。既存のワールドデータや設定ファイルを上書き・削除しないよう、実行パスには十分ご注意ください。
+- **OSの互換性:** スクリプト内で `mv` や `rm`、`wget` などのシェルコマンドを `os.system()` 経由で使用しているため、純粋な Windows (コマンドプロンプトやPowerShell) では正常に動作しません。Windows をお使いの場合は **WSL** 上で実行してください。
