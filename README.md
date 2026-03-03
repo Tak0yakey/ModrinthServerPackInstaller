@@ -50,12 +50,12 @@ python install.py "https://example.com/path/to/modpack.zip"
 
 **インストール先のディレクトリ名を変更する場合 (`-d`) :**
 ```bash
-python install.py "https://example.com/path/to/modpack.zip" -d ./my_server
+python modrinth.py "https://example.com/path/to/modpack.zip" -d ./my_server
 ```
 
 **クライアント用のModパックを構築する場合 (`-c`) :**
 ```bash
-python install.py "https://example.com/path/to/modpack.zip" -c True
+python modrinth.py "https://example.com/path/to/modpack.zip" -c True
 ```
 
 ## ⚠️ Note
