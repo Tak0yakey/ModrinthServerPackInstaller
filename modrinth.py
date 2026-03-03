@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+from gettext import install
+from ast import parse
 from importlib.resources import path
 import shutil
 from pathlib import Path
@@ -11,23 +13,30 @@ parser = argparse.ArgumentParser(description="サンプルのツール")
 
 # 引数の設定
 parser.add_argument("url", help="enter URL of Modpack")           # 必須の引数
-parser.add_argument("-d", type=str, default="server", help="path") # オプション引数
-parser.add_argument("-c", type=bool, default=False, help="if true,install client pack. if false,install server pack")
+parser.add_argument("--world",type=str,default="data/world",help="location to world directory")
+parser.add_argument("--directory", type=str, default="server", help="path") # オプション引数
+parser.add_argument("--client", help="if not have this option,install server pack",action='store_true')
 # 解析の実行
 args = parser.parse_args()
 print(args.url)
-targ_path = Path(args.d)
+targ_path = Path(args.directory)
 if targ_path.is_dir():
     shutil.rmtree(targ_path)
-os.system(f'wget "{args.url}" -O download.zip && unzip download.zip -d {args.d}/&& rm download.zip')
-with open(f"{args.d}/modrinth.index.json","r") as r:
+
+os.system(f'wget "{args.url}" -O download.zip && unzip download.zip -d {args.directory}/&& rm download.zip')
+#create simlink
+world_path = Path(args.world).resolve()
+world_path.mkdir(parents=True, exist_ok=True)
+install_path = Path(args.directory)
+(install_path/"world").symlink_to(world_path)
+with open(f"{args.directory}/modrinth.index.json","r") as r:
     data = json.load(r)
 pprint.pprint(data)
 # move overrides
 os.system(f"mv {targ_path}/overrides/* {targ_path}/")
 file_index = data["files"]
 for file in file_index:
-    if (args.c and (file["env"]["client"] != "required")) or ((not args.c) and (file["env"]["server"] != "required")):
+    if (args.client and (file["env"]["client"] != "required")) or ((not args.client) and (file["env"]["server"] != "required")):
         continue
     os.system(f'curl --create-dirs -o "{targ_path}/{file["path"]}" "{file["downloads"][0]}"')
 deps = data["dependencies"]
