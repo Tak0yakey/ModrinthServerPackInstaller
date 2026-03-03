@@ -1,1 +1,0 @@
-chmod +x modrinth.py
