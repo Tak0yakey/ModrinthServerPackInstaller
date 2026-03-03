@@ -25,8 +25,7 @@
 ※Pythonの標準ライブラリのみを使用しているため、`pip install` による追加パッケージの導入は不要です。
 
 ```bash
-git clone https://github.com/Tak0yakey/ModrinthServerPackInstaller.git
-cd ModrinthServerPackInstaller
+wget https://github.com/Tak0yakey/ModrinthServerPackInstaller/raw/refs/heads/main/modrinth.py
 ```
 
 ## 📖 Usage
