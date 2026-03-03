@@ -18,7 +18,8 @@ parser.add_argument("--directory", type=str, default="server", help="path") # �
 parser.add_argument("--client", help="if not have this option,install server pack",action='store_true')
 # 解析の実行
 args = parser.parse_args()
-print(args.url)
+if args.client:
+    raise Exception("対応中です。現時点ではうまく動きません")
 targ_path = Path(args.directory)
 if targ_path.is_dir():
     shutil.rmtree(targ_path)
