@@ -39,7 +39,7 @@ file_index = data["files"]
 for file in file_index:
     if (args.client and (file["env"]["client"] != "required")) or ((not args.client) and (file["env"]["server"] != "required")):
         continue
-    os.system(f'curl --create-dirs -o "{targ_path}/{file["path"]}" "{file["downloads"][0]}"')
+    os.system(f'curl -L --create-dirs -o "{targ_path}/{file["path"]}" "{file["downloads"][0]}"')
 deps = data["dependencies"]
 minecraft_ver = deps["minecraft"]
 if "neoforge" in deps:
