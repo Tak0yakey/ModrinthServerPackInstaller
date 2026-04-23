@@ -13,7 +13,7 @@ parser = argparse.ArgumentParser(description="サンプルのツール")
 
 # 引数の設定
 parser.add_argument("url", help="enter URL of Modpack")           # 必須の引数
-parser.add_argument("--world",type=str,default="data/world",help="location to world directory")
+parser.add_argument("--data",type=str,default="data",help="location to data directory")
 parser.add_argument("--directory", type=str, default="server", help="path") # オプション引数
 parser.add_argument("--client", help="if not have this option,install server pack",action='store_true')
 # 解析の実行
@@ -26,10 +26,16 @@ if targ_path.is_dir():
 
 os.system(f'wget "{args.url}" -O download.zip && unzip download.zip -d {args.directory}/&& rm download.zip')
 #create simlink
-world_path = Path(args.world).resolve()
+world_path = (Path(args.data)).resolve()/"world"
+jvm_path = (Path(args.data)).resolve()/"user_jvm_args.txt"
+eula_path = (Path(args.data)).resolve()/"eula.txt"
+imm_path = (Path(args.data)).resolve()/"immersive_paintings_cache"
 world_path.mkdir(parents=True, exist_ok=True)
 install_path = Path(args.directory)
 (install_path/"world").symlink_to(world_path)
+(install_path/"user_jvm_args.txt").symlink_to(jvm_path)
+(install_path/"eula.txt").symlink_to(eula_path)
+(install_path/"immersive_paintings_cache").symlink_to(imm_path)
 with open(f"{args.directory}/modrinth.index.json","r") as r:
     data = json.load(r)
 pprint.pprint(data)
